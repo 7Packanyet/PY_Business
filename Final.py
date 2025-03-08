@@ -93,7 +93,15 @@ class InventoryManager:
 
     def edit_product(self, index, new_product):
         if 0 <= index < len(self.products):
+            old_product = self.products[index]
+            old_name = old_product.get("name", "")
             self.products[index] = new_product
+            # If the product name has changed, update the product name in all sales records
+            if old_name != new_product.get("name", ""):
+                for sale in self.sales:
+                    if sale.get("product") == old_name:
+                        sale["product"] = new_product.get("name", "")
+                self.save_sales()  # Keep updated sales records
             self.save_products()
 
     def record_sale(self, product_index, quantity):
@@ -452,7 +460,9 @@ class MainWindow(QtWidgets.QMainWindow):
             d = sale.get("day", 1)
             product_name = sale["product"]
             if 1 <= d <= self.manager.current_day:
-                product_sales[product_name][d - 1] += sale.get("quantity", 0)
+                # 如果销售记录中的产品名称不在当前产品列表中，则跳过（或者可以考虑合并记录）
+                if product_name in product_sales:
+                    product_sales[product_name][d - 1] += sale.get("quantity", 0)
 
         # Clear figure and create 2x2 subplots
         self.figure.clear()
