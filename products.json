@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Apple",
+        "quantity": 5,
+        "price": 4.0,
+        "cost": 2.0,
+        "restock_threshold": 1
+    },
+    {
+        "name": "Orange",
+        "quantity": 8,
+        "price": 5.0,
+        "cost": 4.0,
+        "restock_threshold": 2
+    },
+    {
+        "name": "Peach",
+        "quantity": 3,
+        "price": 3.0,
+        "cost": 2.0,
+        "restock_threshold": 6
+    }
+]
